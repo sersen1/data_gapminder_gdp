@@ -1,0 +1,20 @@
+import pandas as pd
+import numpy as np
+
+df_gdp = pd.read_csv('total_gdp_us_inflation_adjusted.csv', sep=';')
+
+df_gdp.head(2)
+
+df_gdp = pd.melt(df_gdp,
+                ['country'],
+                var_name = 'year', 
+                value_name = 'total_gdp').sort_values(by = ['country', 'year']).reset_index(drop = True)
+
+df_gdp.head(50)
+
+df_gdp.dropna(inplace = True)
+
+sum(df_gdp.duplicated())
+df_gdp.shape
+
+df_gdp['total_gdp'] = df_gdp['total_gdp'].replace({'B': '*1000', 'M': '', 'TR': '*1000000'}, regex=True)
